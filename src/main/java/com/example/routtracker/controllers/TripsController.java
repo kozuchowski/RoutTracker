@@ -1,10 +1,9 @@
 package com.example.routtracker.controllers;
 
 import com.example.routtracker.models.Trip;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.routtracker.service.TripService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 
@@ -12,10 +11,15 @@ import java.math.BigDecimal;
 @RequestMapping("/api")
 public class TripsController {
 
-    @GetMapping("/addTrip")
-    public Trip addTrip (){
-        BigDecimal amount = new BigDecimal("20");
-        Trip trip = new Trip("origin", "destination", amount);
+    @Autowired
+    TripService service;
+
+    @PostMapping ("/addTrip")
+    public Trip addTrip (@RequestParam("origin") String origin,
+                         @RequestParam("destination") String Destination,
+                         @RequestParam("amount") BigDecimal amount ){
+        Trip trip = service.addTrip(origin, Destination, amount);
+
         return trip;
     }
 
