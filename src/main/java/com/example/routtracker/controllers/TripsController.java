@@ -6,13 +6,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
+
 @RestController()
 @RequestMapping("/api")
 public class TripsController {
 
     @GetMapping("/addTrip")
     public Trip addTrip (){
-        Trip trip = new Trip("origin", "destination", 20);
+        BigDecimal amount = new BigDecimal("20");
+        Trip trip = new Trip("origin", "destination", amount);
         return trip;
     }
 
