@@ -1,5 +1,6 @@
 package com.example.routtracker.repository;
 
+import com.example.routtracker.model.Trip;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
