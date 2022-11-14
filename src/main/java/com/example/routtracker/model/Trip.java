@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table
@@ -23,6 +24,14 @@ public class Trip {
     private String destinationAddress;
     @Column
     private BigDecimal amount;
+
+    @Column(name = "created_on")
+    private LocalDateTime createdOn;
+
+    @PrePersist
+    public void prePersist() {
+        createdOn = LocalDateTime.now();
+    }
 
     public Trip(String originAddress, String destinationAddress, BigDecimal amount) {
         this.originAddress = originAddress;
