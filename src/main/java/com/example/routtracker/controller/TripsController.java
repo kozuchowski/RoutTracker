@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
 
 @RestController()
 @RequestMapping("/api")
@@ -15,29 +17,37 @@ public class TripsController {
     TripRepository repository;
 
     @PostMapping ("/addTrip")
-    public void addTrip (@RequestParam("origin") String origin,
+    public Trip addTrip (@RequestParam("origin") String origin,
                          @RequestParam("destination") String destination,
                          @RequestParam("amount") BigDecimal amount ){
         Trip trip = new Trip(origin, destination, amount);
+        repository.save(trip);
 
-        repository.addTrip(trip);
+        return trip;
     }
 
     @GetMapping("/trip")
-    public String getTripById (String id){
+    public Trip getTripById (@RequestParam("id") Long id){
+        Optional<Trip> trip = repository.findById(id);
 
-        return "single trip";
+        if(trip.isPresent()){
+            return trip.get();
+        }
+        //I know, I know - muszę przypomnieć sobie optionale i zmienię to ;)
+        return null;
     }
 
     @GetMapping("/trips")
-    public String getAllTrips (){
+    public List<Trip> getAllTrips (){
+        List<Trip> trips = repository.findAll();
 
-        return "all trips";
+        return trips;
     }
 
     @GetMapping("/deleteTrip")
-    public String deleteTRipById (String id){
+    public String deleteTRipById (@RequestParam("id") Long id){
+        repository.deleteTripById(id);
 
-        return "single trip";
+        return "Deleted";
     }
 }
