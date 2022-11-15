@@ -2,7 +2,7 @@ package com.example.routtracker.controller;
 
 import com.example.routtracker.model.Trip;
 import com.example.routtracker.repository.TripRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -12,9 +12,9 @@ import java.util.Optional;
 
 @RestController()
 @RequestMapping("/api")
+@RequiredArgsConstructor
 public class TripsController {
 
-    @Autowired
     TripRepository repository;
 
     @PostMapping ("/addTrip")
