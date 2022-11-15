@@ -1,13 +1,13 @@
 package com.example.routtracker.repository;
 
 import com.example.routtracker.model.Trip;
-import org.hibernate.sql.Select;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +22,8 @@ public interface TripRepository extends JpaRepository<Trip, Long> {
     @Transactional
     void deleteTripById(Long id);
 
+    @Query(value = "select sum(amount) from trip t where t.created_on between  ?1 and ?2",nativeQuery = true)
+    BigDecimal getAmountSumWithinCustomPeriod (LocalDate startDate, LocalDate endDate);
 
 
 }

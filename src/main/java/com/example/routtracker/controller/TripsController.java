@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,13 +29,10 @@ public class TripsController {
 
     @GetMapping("/trip")
     public Trip getTripById (@RequestParam("id") Long id){
-        Optional<Trip> trip = repository.findById(id);
+        Optional<Trip> optionalTrip = repository.findById(id);
 
-        if(trip.isPresent()){
-            return trip.get();
-        }
-        //I know, I know - muszę przypomnieć sobie optionale i zmienię to ;)
-        return null;
+        return optionalTrip.orElse(new Trip("none", "none", new BigDecimal(0)));
+
     }
 
     @GetMapping("/trips")
@@ -50,4 +48,20 @@ public class TripsController {
 
         return "Deleted";
     }
+
+    @GetMapping("/customPeriodAmountSum")
+    public BigDecimal getCustomPeriodAmountSum(@RequestParam("start") String start, @RequestParam("end") String end ){
+
+       return repository.getAmountSumWithinCustomPeriod(LocalDate.parse(start), LocalDate.parse(end));
+    }
+
+    @GetMapping("/lastWeekAmountSum")
+    public BigDecimal getlastWeekAmountSum(){
+        LocalDate start = LocalDate.now().minusDays(7);
+        LocalDate end = LocalDate.now();
+        return repository.getAmountSumWithinCustomPeriod(start, end);
+    }
+
+
+
 }
