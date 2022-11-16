@@ -2,12 +2,11 @@ package com.example.routtracker.controller;
 
 import com.example.routtracker.model.Trip;
 import com.example.routtracker.repository.TripRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +14,7 @@ import java.util.Optional;
 @RequestMapping("/api")
 public class TripsController {
 
-    TripRepository repository;
+    private final TripRepository repository;
 
     @PostMapping ("/addTrip")
     public Trip addTrip (@RequestParam("origin") String origin,
@@ -52,15 +51,16 @@ public class TripsController {
     @GetMapping("/customPeriodAmountSum")
     public BigDecimal getCustomPeriodAmountSum(@RequestParam("start") String start, @RequestParam("end") String end ){
 
-       return repository.getAmountSumWithinCustomPeriod(LocalDate.parse(start), LocalDate.parse(end));
+       return repository.getAmountSumWithinCustomPeriod(LocalDateTime.parse(start), LocalDateTime.parse(end));
     }
 
     @GetMapping("/lastWeekAmountSum")
     public BigDecimal getlastWeekAmountSum(){
-        LocalDate start = LocalDate.now().minusDays(7);
-        LocalDate end = LocalDate.now();
+        LocalDateTime start = LocalDateTime.now().minusDays(7);
+        LocalDateTime end = LocalDateTime.now();
         return repository.getAmountSumWithinCustomPeriod(start, end);
     }
+
 
     @Autowired
     public TripsController(TripRepository repository) {
