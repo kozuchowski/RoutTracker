@@ -4,10 +4,12 @@ package com.example.routtracker.service;
 import com.example.routtracker.model.Trip;
 import com.example.routtracker.repository.TripRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -44,6 +46,11 @@ public class TripService {
     public BigDecimal getSumWithinCustomPeriod (LocalDateTime start, LocalDateTime end){
        return repository.getAmountSumWithinCustomPeriod(start, end);
 
+    }
+
+    public List<Map<LocalDateTime, BigDecimal>> getLastWeekAmountSumByDay () {
+        LocalDateTime startDate = LocalDateTime.now().minusDays(8);
+        return repository.getLastWeekAmountSumByDay(startDate);
     }
 
 

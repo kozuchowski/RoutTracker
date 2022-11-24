@@ -2,12 +2,14 @@ package com.example.routtracker.controller;
 
 import com.example.routtracker.model.Trip;
 import com.example.routtracker.service.TripService;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController()
@@ -15,6 +17,10 @@ import java.util.Optional;
 public class TripsController {
 
     private final TripService service;
+    @Autowired
+    public TripsController(TripService service) {
+        this.service = service;
+    }
 
     @PostMapping ("/addTrip")
     public Trip addTrip (@RequestParam("origin") String origin,
@@ -61,9 +67,11 @@ public class TripsController {
         return service.getSumWithinCustomPeriod(start, end);
     }
 
-
-    @Autowired
-    public TripsController(TripService service) {
-        this.service = service;
+    @GetMapping("/lastWeekAmountSumByDay")
+    public List<Map<LocalDateTime, BigDecimal>> getAmountSumByDay(){
+        return service.getLastWeekAmountSumByDay();
     }
+
+
+
 }

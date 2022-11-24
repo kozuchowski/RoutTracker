@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -25,6 +26,7 @@ public interface TripRepository extends JpaRepository<Trip, Long> {
     @Query("select sum(t.amount) from Trip t where t.createdOn between  ?1 and ?2")
     BigDecimal getAmountSumWithinCustomPeriod (LocalDateTime startDate, LocalDateTime endDate);
 
-
+    @Query(value = "select DATE(created_on), sum(amount)from trip where DATE(created_on) > ?1 group by DATE(created_on)", nativeQuery = true)
+    List<Map<LocalDateTime, BigDecimal>> getLastWeekAmountSumByDay (LocalDateTime startDate);
 
 }
