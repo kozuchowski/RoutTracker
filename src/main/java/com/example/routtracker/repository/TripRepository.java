@@ -1,6 +1,7 @@
 package com.example.routtracker.repository;
 
 import com.example.routtracker.model.Trip;
+import com.example.routtracker.model.TripAmountSummary;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -26,7 +27,7 @@ public interface TripRepository extends JpaRepository<Trip, Long> {
     @Query("select sum(t.amount) from Trip t where t.createdOn between  ?1 and ?2")
     BigDecimal getAmountSumWithinCustomPeriod (LocalDateTime startDate, LocalDateTime endDate);
 
-    @Query(value = "select DATE(created_on), sum(amount)from trip where DATE(created_on) > ?1 group by DATE(created_on)", nativeQuery = true)
-    List<Map<LocalDateTime, BigDecimal>> getLastWeekAmountSumByDay (LocalDateTime startDate);
+    @Query(value = "select DATE(created_on) as date, sum(amount) as amount from trip where DATE(created_on) > ?1 group by date", nativeQuery = true)
+    List<TripAmountSummary> getLastWeekAmountSumByDay (LocalDateTime startDate);
 
 }

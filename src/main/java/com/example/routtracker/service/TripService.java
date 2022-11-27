@@ -2,6 +2,7 @@ package com.example.routtracker.service;
 
 
 import com.example.routtracker.model.Trip;
+import com.example.routtracker.model.TripAmountSummary;
 import com.example.routtracker.repository.TripRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,7 +49,7 @@ public class TripService {
 
     }
 
-    public List<Map<LocalDateTime, BigDecimal>> getLastWeekAmountSumByDay () {
+    public List<TripAmountSummary> getLastWeekAmountSumByDay () {
         LocalDateTime startDate = LocalDateTime.now().minusDays(8);
         return repository.getLastWeekAmountSumByDay(startDate);
     }

@@ -1,6 +1,7 @@
 package com.example.routtracker.controller;
 
 import com.example.routtracker.model.Trip;
+import com.example.routtracker.model.TripAmountSummary;
 import com.example.routtracker.service.TripService;
 import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +69,7 @@ public class TripsController {
     }
 
     @GetMapping("/lastWeekAmountSumByDay")
-    public List<Map<LocalDateTime, BigDecimal>> getAmountSumByDay(){
+    public List<TripAmountSummary> getAmountSumByDay(){
         return service.getLastWeekAmountSumByDay();
     }
 
